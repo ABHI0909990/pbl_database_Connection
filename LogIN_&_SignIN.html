@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+          content="width=device-width, initial-scale=1.0">
+    <title>LogIN_&_SignIN</title>
+    <link rel="stylesheet" href="LogIN_&_SignIN.css">
+</head>
+
+<body>  
+    <header>
+        <div class="heading_div">
+            <h1 class="heading">VirtuaLearn</h1>
+        </div>
+    </header>
+    <!--main container-->
+    <main>
+    <div class="landingpage">
+        <div>
+        <h2>Lorem</h2>
+        <p>
+            hi
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis voluptatem magnam, aliquid possimus voluptatum beatae sequi delectus sunt consectetur dolores labore repellat! Nemo iure assumenda ad soluta necessitatibus inventore animi rephenderit ipsam?
+        </p>
+        
+        <button>
+            <a href="#login_signin_container">join</a>
+        </button>
+        </div>
+    </div>
+    <div class="login_signin_container" id="login_signin_container">
+         <!--button and text container-->
+        <div class="text_button_container">
+        <div class="text">
+        <h2>Heading</h2>
+        <p>Access Your Knowledge Hub: Enter or Join VirtualLearn</p>
+        </div>
+        <div class="button_container">
+        <div class="slider"></div>
+        <div class="btn">
+            <button class="signin">Sign-in</button>
+            <button class="login">Log-in</button>
+        </div>
+        </div>
+        </div>
+   <!--form container-->
+   <div class="form-container">
+        <div class="form-section">
+            <!-- login form -->
+            <form action="/login" method="post"  id="Log-in_form">
+            <div class="login-box">
+                <input type="email" class="email" id="email_id" placeholder="youremail@email.com" required>
+                <input type="password"class="password" id="pass_word" placeholder="password" required>
+                <button type="submit" class="clkbtn">Login</button>
+            </div>
+            </form>
+            <!--  signin form -->
+            <form action="/register" method="post" id="Sign-in_form">
+            <div class="signin-box">
+                <input type="text" class="name" id="name" name="name" placeholder="Enter your name" required>
+                <input type="email" class="email_id" id="email_id" name="email_id" placeholder="youremail@email.com" required>
+                <input type="password" class="password" id="pass_word" name="pass_word" placeholder="password" required>
+                <input type="password" class="password" id="conpass_word" name="conpass_word" placeholder="Confirm password" required>
+                <button type="submit" class="clkbtn"> signin</button>
+            </div>
+            </form>  
+        </div>
+    </div>
+    </div>
+    </main>
+    <script>
+        let  signin = document.querySelector(".signin");
+        let login = document.querySelector(".login");
+        let slider = document.querySelector(".slider");
+        let formSection = document.querySelector(".form-section");
+
+        signin.addEventListener("click", () => {
+            slider.classList.remove("moveslider");
+            formSection.classList.remove("form-section-move");
+        });
+
+        login.addEventListener("click", () => {
+            slider.classList.add("moveslider");
+            formSection.classList.add("form-section-move");
+        });
+    </script>
+</body>
+</html>
