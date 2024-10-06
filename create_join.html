@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirtuaLearn - Create or Join Group</title>
+    <link rel="stylesheet" href="create_join.css">
+</head>
+<body>
+    <header>
+        <h1>VirtuaLearn</h1>
+    </header>
+    <main>
+        <div class="display" id="display">
+        </div>
+    </main>
+    <footer> 
+        <div id="create_join" class="create_join">
+            <form id="createGroupForm">
+                <div class="create_form" id="create_form">
+                    <label for="group_name">Group Name:</label>
+                    <input type="text" id="group_name" name="group_name" placeholder="Enter your group name" required>
+                    <label for="leader_name">Leader Name:</label>
+                    <input type="text" id="leader_name" name="leader_name" placeholder="Enter your name" required>
+                    <button id="create" type="button">Create</button>
+                </div>
+            </form>
+
+            <form id="joinGroupForm">
+                <div class="join_form" id="join_form">
+                    <label for="join_group">Group Name:</label>
+                    <input type="text" id="join_group" name="join_group" placeholder="Enter group name" required>
+                    <label for="join_code">Join Code:</label>
+                    <input type="number" id="join_code" name="join_code" placeholder="Enter group code" required>
+                    <button id="join" type="button">Join</button>
+                </div>
+            </form>
+        </div>
+        <div class="footer_icon-button_create_join">
+            <button id="circle-button">
+                +
+            </button>
+        </div>
+    </footer>
+    <script>
+        const circle_button = document.getElementById('circle-button');
+        const hiddenDiv = document.getElementById('create_join');
+
+        circle_button.addEventListener('click', () => {
+            if (circle_button.classList.contains('rotated')) {
+                circle_button.classList.remove('rotated');
+                hiddenDiv.classList.remove('show');
+            } else {
+                circle_button.classList.add('rotated');
+                hiddenDiv.classList.add('show');
+            }
+        });
+        const display = document.getElementById('display');
+
+        document.getElementById('create').addEventListener('click', async () => {
+            const groupName = document.getElementById('group_name').value.trim();
+            const leaderName = document.getElementById('leader_name').value.trim();
+
+            if (!groupName || !leaderName) {
+                display.innerHTML = `<p style="color:red;">Please fill in all fields.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch('/create-group', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ groupName, leaderName })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    display.innerHTML = `
+                        <div class="display_div">
+                            <h3>Group Created: ${data.groupName}</h3>
+                            <p>Join Code: ${data.joinCode}</p>
+                            <a href="homepage.html"><button>Go to Homepage</button></a>
+                        </div>
+                    `;
+                } else {
+                    display.innerHTML = `<p style="color:red;">${data.error}</p>`;
+                }
+            } catch (error) {
+                console.error("Error creating group:", error);
+                display.innerHTML = `<p style="color:red;">An error occurred. Please try again.</p>`;
+            }
+        });
+
+        document.getElementById('join').addEventListener('click', async () => {
+            const joinGroup = document.getElementById('join_group').value.trim();
+            const joinCode = document.getElementById('join_code').value.trim();
+
+            if (!joinGroup || !joinCode) {
+                display.innerHTML = `<p style="color:red;">Please fill in all fields.</p>`;
+                return;
+            }
+
+            try {
+                const response = await fetch('/join-group', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ join_group: joinGroup, join_code: joinCode })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    display.innerHTML = `
+                        <div class="display_div">
+                            <h3>Successfully joined group: ${data.group.groupName}</h3>
+                            <a href="homepage.html"><button>Go to Homepage</button></a>
+                        </div>
+                    `;
+                } else {
+                    display.innerHTML = `<p style="color:red;">${data.error}</p>`;
+                }
+            } catch (error) {
+                console.error("Error joining group:", error);
+                display.innerHTML = `<p style="color:red;">An error occurred. Please try again.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
